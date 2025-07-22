@@ -1,12 +1,14 @@
 // src/components/UserControl.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import './UserControl.css';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 
 const UserControl = ({ users, selectedUser, setSelectedUser, onUpdate }) => {
     const [newUserName, setNewUserName] = useState('');
     const [message, setMessage] = useState('');
+    const [isClaiming, setIsClaiming] = useState(false);
 
     const handleAddUser = async (e) => {
         e.preventDefault();
@@ -14,9 +16,11 @@ const UserControl = ({ users, selectedUser, setSelectedUser, onUpdate }) => {
         try {
             await axios.post(`${API_URL}/users`, { name: newUserName });
             setNewUserName('');
-            onUpdate(); // Refresh user list and leaderboard
+            setMessage(`${newUserName} was added!`);
+            onUpdate();
         } catch (error) {
             console.error('Error adding user:', error);
+            setMessage('Error: User might already exist.');
         }
     };
 
@@ -25,37 +29,48 @@ const UserControl = ({ users, selectedUser, setSelectedUser, onUpdate }) => {
             setMessage('Please select a user first!');
             return;
         }
+        setIsClaiming(true);
         try {
             const res = await axios.post(`${API_URL}/claim`, { userId: selectedUser });
             setMessage(res.data.message);
-            onUpdate(); // Refresh leaderboard
+            onUpdate();
         } catch (error) {
             console.error('Error claiming points:', error);
             setMessage('Failed to claim points.');
+        } finally {
+            setTimeout(() => setIsClaiming(false), 500); // Animation duration
         }
     };
 
     return (
-        <div className="user-control">
-            <h2>User Controls</h2>
-            <form onSubmit={handleAddUser}>
+        <div className="user-control-container">
+            <h2>Player Hub</h2>
+            <form onSubmit={handleAddUser} className="add-user-form">
                 <input
                     type="text"
                     value={newUserName}
                     onChange={(e) => setNewUserName(e.target.value)}
-                    placeholder="Enter new user name"
+                    placeholder="Enter New Player Name"
                 />
-                <button type="submit">Add User</button>
+                <button type="submit">+ Add</button>
             </form>
-            <hr />
-            <select onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser || ''}>
-                <option value="" disabled>-- Select a User --</option>
-                {users.map(user => (
-                    <option key={user._id} value={user._id}>{user.name}</option>
-                ))}
-            </select>
-            <button onClick={handleClaimPoints} disabled={!selectedUser}>Claim Points</button>
-            {message && <p className="message">{message}</p>}
+
+            <div className="claim-section">
+                <select onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser || ''}>
+                    <option value="" disabled>-- Select a Player --</option>
+                    {users.map(user => (
+                        <option key={user._id} value={user._id}>{user.name}</option>
+                    ))}
+                </select>
+                <button
+                    onClick={handleClaimPoints}
+                    disabled={!selectedUser || isClaiming}
+                    className={`claim-button ${isClaiming ? 'claiming' : ''}`}
+                >
+                    {isClaiming ? '🎉' : 'Claim Points'}
+                </button>
+            </div>
+            {message && <p className="status-message">{message}</p>}
         </div>
     );
 };

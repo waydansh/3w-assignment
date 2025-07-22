@@ -1,0 +1,105 @@
+/* src/components/UserControl.css */
+.user-control-container {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.user-control-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.add-user-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.add-user-form input {
+    flex-grow: 1;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.add-user-form input:focus {
+    outline: none;
+    border-color: #8a2be2; /* BlueViolet */
+}
+
+.add-user-form button {
+    background-color: #8a2be2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-user-form button:hover {
+    background-color: #7324b8;
+}
+
+.claim-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.claim-section select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.claim-button {
+    background: linear-gradient(45deg, #ff5f6d, #ffc371);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.claim-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 95, 109, 0.4);
+}
+
+.claim-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.claim-button.claiming {
+    animation: claim-animation 0.5s ease;
+}
+
+@keyframes claim-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.status-message {
+    text-align: center;
+    margin-top: 1rem;
+    color: #8a2be2;
+    font-weight: 500;
+}
