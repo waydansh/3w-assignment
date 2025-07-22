@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './UserControl.css';
 
-const API_URL = '/api';
+const API_URL = 'https://threew-assignment-xs8i.onrender.com/api';
 
 const UserControl = ({ users, selectedUser, setSelectedUser, onUpdate }) => {
     const [newUserName, setNewUserName] = useState('');

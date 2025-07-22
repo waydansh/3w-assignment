@@ -6,7 +6,7 @@ import Leaderboard from './components/Leaderboard';
 import './index.css'; // Vite uses index.css by default
 
 // The API URL now points to the proxy path
-const API_URL = '/api';
+const API_URL = 'https://threew-assignment-xs8i.onrender.com/api';
 
 function App() {
   const [users, setUsers] = useState([]);
